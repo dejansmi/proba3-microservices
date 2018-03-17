@@ -33,7 +33,7 @@ public class Proba3Controller {
 		logger.info("proba3-microservice all() invoked");
 		return "Proba3 TEST";
 	}
-	
+
 
 	@RequestMapping("/proba3/json")
 	public String getPaymentOrder(HttpServletRequest req) throws JsonProcessingException {
@@ -166,7 +166,7 @@ public class Proba3Controller {
 			Pets spet = new Pets();
 			
 			QueryBuilder qWhere = new QueryBuilder(modelTree, "Pet");
-			qWhere = qWhere.selectItems("name", "tag","name").item("id").le().
+			qWhere = qWhere.selectItems("name", "tag").item("id").le().
 			constant(6).or().item("name").eq().constant("A");
 			Instant ts = Instant.now();
 			
