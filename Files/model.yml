@@ -1,0 +1,40 @@
+Models:
+  Pet:
+    type: object
+    name: Pet
+    description: Pet data 
+    server:
+      java: class
+      className: Pet
+      database:
+        type: table
+        table:
+          name: PET
+          databases: 
+            postgres: PET
+            oracle: PET
+    items:
+      required:
+        - id
+        - name
+      properties:
+        id:
+          domain: id
+          column: id
+        name:
+          domain: string
+          column: name
+        tag:
+          domain: string
+          column: tag
+        born:
+          domain: date
+          column: born
+      primaryKey:
+        - id
+  Pets:
+      type: array
+      name: Pets
+      java: pets
+      items:
+        $ref: "#/Models/Pet/items"

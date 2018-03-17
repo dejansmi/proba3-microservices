@@ -1,0 +1,4 @@
+Databases:
+  default: postgres
+  objects:
+    PetO: oracle

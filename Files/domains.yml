@@ -1,0 +1,36 @@
+Domains:
+  string:
+    java: String
+    javascript: String
+    databases:
+      postgres: varchar2
+      oracle: varchar2
+    microservices:
+      type: string
+  integer:
+    java: Integer
+    javascript: int
+    database:
+      postgres: integer
+      oracle: integer
+    microservices:
+      type: integer
+      format: int64
+  integer32:
+    $ref: "#/Domains/integer"
+    microservices:
+      format: int32
+  string64:
+    $ref: "#/Domains/string"
+    length: 64
+    databases:
+      postgres: varchar2(64)
+      oracle: varchar2(64)
+  date:
+    java: LocalDate
+    javascript: Date
+    database:
+      postgres: date
+      oracle: date
+  id:
+    $ref: "#/Domains/integer"

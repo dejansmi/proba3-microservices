@@ -1,0 +1,31 @@
+### Spring properties
+# Service registers under this name
+spring:
+  application:
+    name: proba3-microservice
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres 
+    username: dejans
+    password: pinosava
+
+# Discovery Server Access
+eureka:
+    client:
+      serviceUrl:
+        defaultZone: http://localhost:1111/eureka/
+
+# HTTP Server (Tomcat) Port
+server: 
+  port: 2226
+
+# Disable Spring Boot's "Whitelabel" default error page, so we can use our own
+error:
+  whitelabel:
+    enabled: false
+
+
+omains:
+  first: FIRST
+  second: SECOND

@@ -1,0 +1,53 @@
+domains:
+  first: "FIRST1 "
+  xfirst: "XFIRST"
+  second: "SECOND"
+  d:
+    - listStr:
+      - R1
+      - R2
+      - R3
+    - listStr:
+      - W1
+      - W2
+    - listStr:
+    - listStr:
+      - Q1
+      - Q2
+  c:
+      - Uw
+      - Rz
+      - TX
+  third: 
+    - I:
+      a: X
+      b: Y
+      c:
+        - U
+        - R
+        - T
+        - D KUPUS 
+      d: super
+    - II:
+      a: Y
+      b: Z
+    - a: POST
+      b: RT
+    - c:
+      - "UK "
+    - a: Misao
+      c:
+        - A
+        - B
+        - C
+      b: Velika
+---
+address:
+  line1: My Address Line 1
+  line2: Address line 2
+  city: Washington D.C.
+  zip: 20000
+  add: null
+  first: 
+    second: B
+    third: C
