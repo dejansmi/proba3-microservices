@@ -166,8 +166,8 @@ public class Proba3Controller {
 			Pets spet = new Pets();
 			
 			QueryBuilder qWhere = new QueryBuilder(modelTree, "Pet");
-			qWhere = qWhere.selectItems("name", "tag").item("id").le().
-			constant(6).or().item("name").eq().constant("A");
+			qWhere = qWhere.selectItems("name", "tag", "born").item("id").le().
+			constant(6).or().item("name").eq().constant("A").forUpdate();
 			Instant ts = Instant.now();
 			
 			o.selectObjects(qWhere, spet);
@@ -181,9 +181,14 @@ public class Proba3Controller {
 
 			String xpetTxt = new String();
 			for (Pet xpet: spet.getList()) {
+				if (xpet.getName().equals("A")) {
+					LocalDate localDate = LocalDate.now();
+					xpet.setBorn(localDate);
+				}
 				xpetTxt += (xpet.getId()+" "+xpet.getName()+" " + xpet.getTag()+" " + xpet.getBorn() + "<br/>");
 
 			}
+			o.updIns1(spet);
 
 			return "Proba3 Tree: <p>"+ xpetTxt +"</p><p><pre>" + pom+ "</pre></p>";
 		} catch (Exception e) {
