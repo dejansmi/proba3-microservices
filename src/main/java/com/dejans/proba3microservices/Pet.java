@@ -31,26 +31,33 @@ public class Pet implements DatabaseClass {
     }
 
     public void setId(Integer id) {
+        if (!this.iddefined) {
+            this.id = id;
+            this.iddefined = true;
+            return;
+        }
+        if (this.id == id)
+            return;
         if (status != null && (status.equals("FU") || status.equals("U"))) {
             status = "U";
             if (!this.iddefined) {
                 this.id = id;
                 this.iddefined = true;
             } else {
-                if (this.id == id) return;
+                if (this.id == id)
+                    return;
                 if (OLD == null) {
                     OLD = new Pet();
                 }
                 OLD.id = this.id;
                 OLD.iddefined = true;
                 this.id = id;
-                
+
             }
-    
-        } else if (status == null || !status.equals("D")){
-            if (this.id == id && this.iddefined) return;
+
+        } else if (status == null || !status.equals("D")) {
             this.id = id;
-            this.iddefined = true; 
+            this.iddefined = true;
         }
         // SR: for status D(elete) nije dozvoljena izmena
         return;
@@ -61,61 +68,77 @@ public class Pet implements DatabaseClass {
     }
 
     public void setName(String name) {
+        if (!this.namedefined) {
+            this.name = name;
+            this.namedefined = true;
+            return;
+        }
+        if (this.name == null && name == null)
+            return;
+        if (this.name != null && this.name.equals(name) && this.namedefined)
+            return;
         if (status != null && (status.equals("FU") || status.equals("U"))) {
             status = "U";
             if (!this.namedefined) {
                 this.name = name;
                 this.namedefined = true;
             } else {
-                if (this.name.equals(name)) return;
+                if (this.name != null && this.name.equals(name))
+                    return;
                 if (OLD == null) {
                     OLD = new Pet();
                 }
                 OLD.name = this.name;
                 OLD.namedefined = true;
                 this.name = name;
-                
+
             }
-    
-        } else if (status == null || !status.equals("D")){
-            if (this.name == null && name == null) return;
-            if (this.name != null && this.name.equals(name) && this.namedefined) return;
+
+        } else if (status == null || !status.equals("D")) {
             this.name = name;
-            this.namedefined = true; 
+            this.namedefined = true;
         }
         // SR: for status D(elete) nije dozvoljena izmena
         return;
     }
+
     public String getTag() {
         return tag;
     }
 
     public void setTag(String tag) {
+        if (!this.tagdefined) {
+            this.tag = tag;
+            this.tagdefined = true;
+            return;
+        }
+        if (this.tag == null && tag == null)
+            return;
+        if (this.tag != null && this.tag.equals(tag) && this.tagdefined)
+            return;
         if (status != null && (status.equals("FU") || status.equals("U"))) {
             status = "U";
             if (!this.tagdefined) {
                 this.tag = tag;
                 this.tagdefined = true;
             } else {
-                if (this.tag.equals(tag)) return;
+                if (this.tag != null && this.tag.equals(tag))
+                    return;
                 if (OLD == null) {
                     OLD = new Pet();
                 }
                 OLD.tag = this.tag;
                 OLD.tagdefined = true;
                 this.tag = tag;
-                
+
             }
-    
-        } else if (status == null || !status.equals("D")){
-            if (this.tag == null && tag == null) return;
-            if (this.tag != null && this.tag.equals(tag) && this.tagdefined) return;
+
+        } else if (status == null || !status.equals("D")) {
             this.tag = tag;
-            this.tagdefined = true; 
+            this.tagdefined = true;
         }
         // SR: for status D(elete) nije dozvoljena izmena
         return;
-
 
     }
 
@@ -124,34 +147,40 @@ public class Pet implements DatabaseClass {
     }
 
     public void setBorn(LocalDate born) {
+        if (!this.borndefined) {
+            this.born = born;
+            this.borndefined = true;
+            return;
+        }
+        if (this.born == null && born == null)
+            return;
+        if (this.born != null && this.born.equals(born) && this.borndefined)
+            return;
         if (status != null && (status.equals("FU") || status.equals("U"))) {
             status = "U";
             if (!this.borndefined) {
                 this.born = born;
                 this.borndefined = true;
             } else {
-                if (this.born.equals(born)) return;
+                if (this.born != null && this.born.equals(born))
+                    return;
                 if (OLD == null) {
                     OLD = new Pet();
                 }
                 OLD.born = this.born;
                 OLD.borndefined = true;
                 this.born = born;
-                
+
             }
-    
-        } else if (status == null || !status.equals("D")){
-            if (this.born == null && born == null) return;
-            if (this.born != null && this.born.equals(born) && this.borndefined) return;
+
+        } else if (status == null || !status.equals("D")) {
             this.born = born;
-            this.borndefined = true; 
+            this.borndefined = true;
         }
         // SR: for status D(elete) nije dozvoljena izmena
         return;
 
-
     }
-
 
     public Pet getOLD() {
         return OLD;
@@ -197,17 +226,16 @@ public class Pet implements DatabaseClass {
 
     public void set(String itemName, Object value) {
         if (itemName.equals("id")) {
-            setId( (Integer) value);
+            setId((Integer) value);
         } else if (itemName.equals("name")) {
-            setName( (String) value);
+            setName((String) value);
         } else if (itemName.equals("tag")) {
             setTag((String) value);
         } else if (itemName.equals("born")) {
-            setBorn ((LocalDate) value);
+            setBorn((LocalDate) value);
         }
-        return ;
+        return;
     }
-
 
     public boolean isChanged(String itemName) {
         if (OLD == null)

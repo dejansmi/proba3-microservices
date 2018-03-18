@@ -357,7 +357,6 @@ public class OurORM {
 
         Connection con = connectStart();
 
-        selectSqlTxt = "select id, name, tag from pet where id > ? ";
         if (object.typeClass().equals("List")) {
             if (getCommand.selectAllItems()) {
                 xItems = object.getxItems();
