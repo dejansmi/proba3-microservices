@@ -2,8 +2,6 @@ package com.dejans.proba3microservices;
 
 import java.util.ArrayList;
 
-import org.bouncycastle.jcajce.provider.symmetric.XTEA;
-
 public class QueryBuilder {
     public class ObjType {
         public Object object;

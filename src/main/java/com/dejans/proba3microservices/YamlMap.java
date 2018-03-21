@@ -3,7 +3,7 @@ package com.dejans.proba3microservices;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
-
+ 
 public class YamlMap {
 
     protected class EoI { // ElementOfIndex

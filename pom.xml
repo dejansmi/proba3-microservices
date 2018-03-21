@@ -81,41 +81,14 @@
 			<artifactId>freemarker</artifactId>
 			<version>2.3.27-incubating</version>
 		</dependency>
+		<dependency>
+			<groupId>com.dejans</groupId>
+			<artifactId>mapper</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<version>1.7</version>
-				<executions>
-					<execution>
-						<id>add-wsdl-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${basedir}/src/main/java</source>
-								<source>/home/dejans/Develop/java/source/library/library-mapper/src/main/java</source>
-							</sources>
-						</configuration>
-					</execution>
-					<execution>
-						<id>add-wsdl-test-source</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>add-test-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>${basedir}/src/test/java</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

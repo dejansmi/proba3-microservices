@@ -5,12 +5,12 @@ import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.lang.Class;
 import org.apache.commons.lang3.reflect.FieldUtils;
 import java.lang.reflect.Field;
 import java.lang.reflect.Type;
+import com.dejans.mapper.MyObjectMapper;;
 
 public class ModelDefinition {
     private String openapi;
@@ -22,13 +22,13 @@ public class ModelDefinition {
     public String toCheck() throws IOException {
         String pom = new String();
         Object obj = components.getSchemas().get("Pet");
-        ObjectMapper mapper = new ObjectMapper();
+        MyObjectMapper mapper = new MyObjectMapper();
 
         //Object to JSON in String
         pom += mapper.writeValueAsString(obj);
         SchemaObject sc = new SchemaObject();
 
-        ObjectMapper mapperRead = new ObjectMapper();
+        MyObjectMapper mapperRead = new MyObjectMapper();
         mapperRead.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         //JSON from String to Object
