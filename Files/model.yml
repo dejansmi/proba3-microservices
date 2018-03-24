@@ -36,5 +36,6 @@ Models:
       type: array
       name: Pets
       java: pets
+      objectOfList: Pet
       items:
         $ref: "#/Models/Pet/items"

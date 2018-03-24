@@ -3,13 +3,14 @@ package com.dejans.proba3microservices;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Pets implements DatabaseClassList<Pet> {
     private List<Pet> pets;
 
-    private String[] xItems = { "id", "name", "tag", "born" };
-    private String[] xType = { "Integer", "String", "String", "LocalDate" };
-    private String[] xPrimaryKey = { "id" };
-    private String[] xPrimaryKeyType = { "Integer" };
+    private String[] xItems = {"born", "id", "name", "tag" };
+    private String[] xType = {"LocalDate", "Integer", "String", "String"  };
+    private String[] xPrimaryKey = {"id" };
+    private String[] xPrimaryKeyType = {"Integer" };
 
     public Pets () {
         pets = new ArrayList<Pet>();
@@ -56,13 +57,10 @@ public class Pets implements DatabaseClassList<Pet> {
     }
 
     public DatabaseClass newObject() {
-        //DatabaseClass tmp = new Pet();
         return new Pet();
     }
 
     public void add(Object obj) {
         pets.add((Pet) obj);
     }
-
-
 }
