@@ -23,6 +23,12 @@ Domains:
   string64:
     $ref: "#/Domains/string"
     length: 64
+    lengthValidate:
+      set:
+        validate: true
+        action: error
+        errormessage: "${item} is greater than 64 charachters" 
+        errorcode: VAL-001
     databases:
       postgres: varchar2(64)
       oracle: varchar2(64)

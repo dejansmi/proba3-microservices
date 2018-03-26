@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Types;
 import java.time.LocalDate;
 
+
 public class OurORM {
     private ModelDefinitionTree model;
 
@@ -342,7 +343,7 @@ public class OurORM {
         }
     }
 
-    public void selectObjects(QueryBuilder getCommand, DatabaseClassList<?> object) {
+    public void selectObjects(QueryBuilder getCommand, DatabaseClassList<?> object) throws Exception {
 
         String selectSqlTxt = new String();
         String[] xItems = null;

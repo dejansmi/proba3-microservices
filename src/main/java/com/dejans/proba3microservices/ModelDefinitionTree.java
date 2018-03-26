@@ -102,4 +102,60 @@ public class ModelDefinitionTree {
 
     }
 
+    public class LengthValidate {
+        int length;
+        boolean validate;
+        String action;
+        String errormessage; 
+        String errorcode;
+
+        public LengthValidate(){
+            // Default values
+            validate = true;
+            action = "error";
+            errormessage = "${object}.${item} is greater than ${length} characters";
+            errorcode = "VAL-001";
+        }
+    }
+
+    public LengthValidate lengthValidate (String object, String item) {
+        String keyLength = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length";
+        String length = modelTree.get(keyLength);
+        if (length==null) {
+            // length not defined
+            LengthValidate lval = new LengthValidate();
+            lval.validate = false;
+            lval.action = "";
+            lval.errormessage = "";
+            lval.errorcode = "";
+            return lval;
+        } else {
+            LengthValidate lval = new LengthValidate();
+            lval.length = Integer.parseInt(length);
+            
+            String key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length.{.lengthValidate.{.set.{.validate";
+            String value = modelTree.get(key);
+            if (value != null) {
+                lval.validate = Boolean.parseBoolean(value);
+            }
+            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length.{.lengthValidate.{.set.{.action";
+            value = modelTree.get(key);
+            if (value != null) {
+                lval.action = value;
+            }
+            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length.{.lengthValidate.{.set.{.errornessage";
+            value = modelTree.get(key);
+            if (value != null) {
+                lval.errormessage = value;
+                lval.errormessage = lval.errormessage.replace("${object}", object).replace(("${item}"), item).replace("${length}", length);
+            }
+            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length.{.lengthValidate.{.set.{.errorcode";
+            value = modelTree.get(key);
+            if (value != null) {
+                lval.errorcode = value;
+            }
+            return lval;
+        }
+
+    }
 }

@@ -3,6 +3,9 @@ package com.dejans.proba3microservices;
 import java.time.LocalDate;
 
 
+import lombok.val;
+
+
 public class Pet implements DatabaseClass  {
     private LocalDate born;
     private boolean borndefined;
@@ -151,8 +154,9 @@ public class Pet implements DatabaseClass  {
         return tag;
     }
 
-    public void setTag(String tag) {
+    public void setTag(String tag) throws Exception { 
         if (!this.tagdefined) {
+            ValidateByDefinition.getInstance().setValidate("Pet", "tag","String", tag);
             this.tag = tag;
             this.tagdefined = true;
             return;
@@ -166,6 +170,7 @@ public class Pet implements DatabaseClass  {
         if (status != null && (status.equals("FU") || status.equals("U"))) {
             status = "U";
             if (!this.tagdefined) {
+                ValidateByDefinition.getInstance().setValidate("Pet", "tag","String", tag);
                 this.tag = tag;
                 this.tagdefined = true;
         } else {
@@ -174,6 +179,7 @@ public class Pet implements DatabaseClass  {
             if (OLD == null) {
                 OLD = new Pet();
             }
+            ValidateByDefinition.getInstance().setValidate("Pet", "tag","String", tag);
             OLD.tag = this.tag;
             OLD.tagdefined = true;
             this.tag = tag;
@@ -181,6 +187,7 @@ public class Pet implements DatabaseClass  {
             }
 
         } else if (status == null || !status.equals("D")) {
+            ValidateByDefinition.getInstance().setValidate("Pet", "tag","String", tag);
             this.tag = tag;
             this.tagdefined = true;
         }
@@ -232,7 +239,7 @@ public class Pet implements DatabaseClass  {
         return null;
     }
 
-    public void set(String itemName, Object value) {
+    public void set(String itemName, Object value) throws Exception {
         if (itemName.equals("born")) {
             setBorn((LocalDate) value);
         } else if (itemName.equals("id")) {

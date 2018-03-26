@@ -24,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class Proba3Controller {
 	static ObjectMapper mapper = new ObjectMapper();
 
-
-
 	protected Logger logger = Logger.getLogger(Proba3Controller.class.getName());
 
 	@RequestMapping("/proba3/test")
@@ -33,7 +31,6 @@ public class Proba3Controller {
 		logger.info("proba3-microservice all() invoked");
 		return "Proba3 TEST";
 	}
-
 
 	@RequestMapping("/proba3/json")
 	public String getPaymentOrder(HttpServletRequest req) throws JsonProcessingException {
@@ -69,7 +66,6 @@ public class Proba3Controller {
 			String pom0 = modelLocal.toString();
 			pom0 += modelLocal.toCheck();
 
-
 			return pom0;
 		} catch (Exception e) {
 			// TODO;   Auto-generated catch block
@@ -80,7 +76,6 @@ public class Proba3Controller {
 		// String paymentOrderJson = ":PROBA";
 	}
 
-
 	@RequestMapping("/proba3/treemap")
 	public String getTreeMap(HttpServletRequest req) throws JsonProcessingException {
 		logger.info("proba3-microservice getConfig() invoked");
@@ -89,108 +84,113 @@ public class Proba3Controller {
 			String pom = new String();
 
 			File fileName = new File("Files/domains.yml");
-			TreeMapYamlParse tMYP = new TreeMapYamlParse (fileName);
+			TreeMapYamlParse tMYP = new TreeMapYamlParse(fileName);
 
-			fileName = new File ("Files/model.yml");
+			fileName = new File("Files/model.yml");
 			tMYP.addConfiguration(fileName);
 
-			fileName = new File ("Files/databases.yml");
+			fileName = new File("Files/databases.yml");
 			tMYP.addConfiguration(fileName);
 
-
-			fileName = new File ("Files/api.yml");
+			fileName = new File("Files/api.yml");
 			tMYP.addConfiguration(fileName);
 
 			pom = tMYP.toString();
 
 			ModelDefinitionTree modelTree = new ModelDefinitionTree(tMYP);
+			ValidateByDefinition.getInstance().setModel(modelTree);
 
 			Freemarkertest fmt = new Freemarkertest();
 
 			OurORM o = new OurORM(modelTree);
-
-			Instant t1 = Instant.now();
-			Pet pet = new Pet();
-			pet.setId(172);
-			pet.setName("Macka");
-			pet.setTag("Maca");
-			pet.setTag("Kuca");
-			LocalDate date = LocalDate.of(2015,Calendar.FEBRUARY,4);
-			pet.setBorn(null);
-			List<Pet> lpet = new ArrayList<Pet>();
-			lpet.add(pet);
-			pet = new Pet();
-			pet.setId(173);
-			pet.setName("Pas");
-			pet.setTag("Kuca");
-			date = LocalDate.of(2015,Calendar.FEBRUARY,5);
-			pet.setBorn(null);
-			lpet.add(pet);
-			Pet petOLD = new Pet();
-			petOLD.setId(null);
-			pet = new Pet();
-			pet.setOLD(petOLD);
-			pet.setId(null);
-			pet.setName("Mama");
-			pet.setTag(null);
-			pet.setStatus("FU");
-			pet.setId(null);
-			pet.setName("Kupus");
-			pet.setTag("Marconi");
-			lpet.add(pet);
-			pet = new Pet();
-			Integer ids = 4;
-			pet.setId(ids);
-			pet.setName("Mama");
-			pet.setTag(null);
-			date = LocalDate.of(1982,4,1);
-			pet.setBorn(date);
-			pet.setStatus("FU");
-			ids = 6;
-			pet.setId(ids);
-			pet.setName("Kapa");
-			pet.setTag("Zimska");
-			date = LocalDate.now();
-			pet.setBorn(date);
-			lpet.add(pet);
-			pet = new Pet();
-			pet.setId(172);
-			pet.setStatus("D");
-			lpet.add(pet);
-			
 			Pets pets = new Pets();
-			pets.setPets(lpet);
-
-			o.updIns1(pets);
-
-			Pets spet = new Pets();
-			
-			QueryBuilder qWhere = new QueryBuilder(modelTree, "Pet");
-			qWhere = qWhere.selectItems("name", "tag", "born").item("id").le().
-			constant(6).or().item("name").eq().constant("A").forUpdate();
-			Instant ts = Instant.now();
-			
-			o.selectObjects(qWhere, spet);
-			
-			Instant t2 = Instant.now();
-			long sek = java.time.Duration.between(t1, t2).toMillis();
-
-			System.out.println(sek);
-			sek = java.time.Duration.between(ts, t2).toMillis();
-			System.out.println(sek);
-
+			Instant t1 = Instant.now();
 			String xpetTxt = new String();
-			for (Pet xpet: spet.getList()) {
-				if (xpet.getName().equals("A")) {
-					LocalDate localDate = LocalDate.now();
-					xpet.setBorn(localDate);
+
+			try {
+				Pet pet = new Pet();
+				pet.setId(172);
+				pet.setName("Macka");
+				pet.setTag("Maca");
+				pet.setTag("Kuca");
+				LocalDate date = LocalDate.of(2015, Calendar.FEBRUARY, 4);
+				pet.setBorn(null);
+				List<Pet> lpet = new ArrayList<Pet>();
+				lpet.add(pet);
+				pet = new Pet();
+				pet.setId(173);
+				pet.setName("Pas");
+				pet.setTag("Kuca");
+				date = LocalDate.of(2015, Calendar.FEBRUARY, 5);
+				pet.setBorn(null);
+				lpet.add(pet);
+				Pet petOLD = new Pet();
+				petOLD.setId(null);
+				pet = new Pet();
+				pet.setOLD(petOLD);
+				pet.setId(null);
+				pet.setName("Mama");
+				pet.setTag(null);
+				pet.setStatus("FU");
+				pet.setId(null);
+				pet.setName("Kupus");
+				pet.setTag("Marconi");
+				lpet.add(pet);
+				pet = new Pet();
+				Integer ids = 4;
+				pet.setId(ids);
+				pet.setName("Mama");
+				pet.setTag(null);
+				date = LocalDate.of(1982, 4, 1);
+				pet.setBorn(date);
+				pet.setStatus("FU");
+				ids = 6;
+				pet.setId(ids);
+				pet.setName("Kapa");
+				pet.setTag("Zimska");
+				date = LocalDate.now();
+				pet.setBorn(date);
+				lpet.add(pet);
+				pet = new Pet();
+				pet.setId(172);
+				pet.setStatus("D");
+				lpet.add(pet);
+
+				pets.setPets(lpet);
+				o.updIns1(pets);
+
+				Pets spet = new Pets();
+
+				QueryBuilder qWhere = new QueryBuilder(modelTree, "Pet");
+				qWhere = qWhere.selectItems("name", "tag", "born").item("id").le().constant(6).or().item("name").eq()
+						.constant("A").forUpdate();
+				Instant ts = Instant.now();
+
+				o.selectObjects(qWhere, spet);
+
+				Instant t2 = Instant.now();
+				long sek = java.time.Duration.between(t1, t2).toMillis();
+
+				System.out.println(sek);
+				sek = java.time.Duration.between(ts, t2).toMillis();
+				System.out.println(sek);
+
+				for (Pet xpet : spet.getList()) {
+					if (xpet.getName().equals("A")) {
+						LocalDate localDate = LocalDate.now();
+						xpet.setBorn(localDate);
+					}
+					xpetTxt += (xpet.getId() + " " + xpet.getName() + " " + xpet.getTag() + " " + xpet.getBorn()
+							+ "<br/>");
+
 				}
-				xpetTxt += (xpet.getId()+" "+xpet.getName()+" " + xpet.getTag()+" " + xpet.getBorn() + "<br/>");
-
+				o.updIns1(spet);
+			} catch (Exception e) {
+				
+				xpetTxt = ExceptionHandlings.getInstance().catchHandlingsHTTP(e);
 			}
-			o.updIns1(spet);
 
-			return "Proba3 Tree: <p>"+ xpetTxt +"</p><p><pre>" + pom+ "</pre></p>";
+			return "Proba3 Tree: <p>" + xpetTxt + "</p><p><pre>" + pom + "</pre></p>";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -199,8 +199,6 @@ public class Proba3Controller {
 
 		// String paymentOrderJson = ":PROBA";
 	}
-
-
 
 	@RequestMapping("/proba3/config")
 	public String getConfig(HttpServletRequest req) throws JsonProcessingException {
@@ -216,7 +214,7 @@ public class Proba3Controller {
 
 			YAMLFactory factory = new YAMLFactory();
 			YAMLParser parser = factory.createParser(new File("Files/model.yml"));
-			String pom = "" ;
+			String pom = "";
 			while (parser.nextToken() != null) {
 				if (parser.currentToken() == JsonToken.END_ARRAY) {
 					pom += " END ARRAY\n";
@@ -278,7 +276,7 @@ public class Proba3Controller {
 
 			String pom1 = yamlMap.PrintHashMapString();
 
-			return "Proba3: <p>"+pom0 + "</p><p><pre>" + pom+ "</pre></p><p>"+ pom1+ "</pom>";
+			return "Proba3: <p>" + pom0 + "</p><p><pre>" + pom + "</pre></p><p>" + pom1 + "</pom>";
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
