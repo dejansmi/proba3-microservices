@@ -98,7 +98,7 @@ public class Proba3Controller {
 			pom = tMYP.toString();
 
 			ModelDefinitionTree modelTree = new ModelDefinitionTree(tMYP);
-			ValidateByDefinition.getInstance().setModel(modelTree);
+			ValidateByDefinition.setModel(modelTree);
 
 			Freemarkertest fmt = new Freemarkertest();
 
@@ -187,7 +187,7 @@ public class Proba3Controller {
 				o.updIns1(spet);
 			} catch (Exception e) {
 				
-				xpetTxt = ExceptionHandlings.getInstance().catchHandlingsHTTP(e);
+				xpetTxt = ExceptionHandlings.catchHandlingsHTTP(e);
 			}
 
 			return "Proba3 Tree: <p>" + xpetTxt + "</p><p><pre>" + pom + "</pre></p>";

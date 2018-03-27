@@ -1,14 +1,12 @@
 package com.dejans.proba3microservices;
 
-import java.util.Arrays;
-
 
 public class ValidateByDefinition {
     private ModelDefinitionTree model = null;
     private static ValidateByDefinition instance = null;
 
     // this is Singleton class
-    public static ValidateByDefinition getInstance() {
+    private static ValidateByDefinition getInstance() {
         if (instance == null) {
             instance = new ValidateByDefinition();
         }
@@ -18,18 +16,28 @@ public class ValidateByDefinition {
     protected ValidateByDefinition() {
     }
 
-    public void setModel(ModelDefinitionTree model) {
+
+    public static void setValidate (String object, String item, String type, Object value) throws Exception {
+        getInstance().setValidateInternal (object, item, type, value);
+    }
+
+    public static void setModel(ModelDefinitionTree model) {
+        getInstance().setModelInternal(model);
+    }
+
+
+    private void setModelInternal(ModelDefinitionTree model) {
         this.model = model;
     }
 
     private void lengthValidate(String object, String item, int length) throws Error, Exception {
         ModelDefinitionTree.LengthValidate lval = model.lengthValidate(object, item);
         if (lval.validate) {
-            ExceptionHandlings.getInstance().addThrow("COD-001", "FIRST EXCEPTION", 0);
+            ExceptionHandlings.addThrow("COD-001", "FIRST EXCEPTION", 3);
         }
     }
 
-    public void setValidate(String object, String item, String type, Object value) throws Exception {
+    private void setValidateInternal(String object, String item, String type, Object value) throws Exception {
         System.out.println("USAO U SET VALIDATE");
         System.out.println("USAO U SET VALIDATE " + object + "." + item);
         System.out.println("USAO U SET VALIDATE");
@@ -42,10 +50,10 @@ public class ValidateByDefinition {
                 }
             }
         } catch (Exception e) {
-            ExceptionHandlings.getInstance().catchHandlings(e);
+            ExceptionHandlings.catchHandlings(e);
 
         } catch (Error e) {
-            ExceptionHandlings.getInstance().catchHandlings(e);
+            ExceptionHandlings.catchHandlings(e);
         }
 
     }

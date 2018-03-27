@@ -8,13 +8,13 @@ public class ExceptionHandlings {
     private List<StackTraceElement[]> sTE = new ArrayList<StackTraceElement[]>();
     private List<String> exceptions = new ArrayList<String>();
     private List<Integer> forUser = new ArrayList<Integer>();
-    
+
     private boolean firstHandling = false;
 
     private static ExceptionHandlings instance = null;
 
     // this is Singleton class
-    public static ExceptionHandlings getInstance() {
+    private static ExceptionHandlings getInstance() {
         if (instance == null) {
             instance = new ExceptionHandlings();
         }
@@ -30,27 +30,48 @@ public class ExceptionHandlings {
     //   1 - show message to Client but not to User
     //   2 - show message to User byt not Client
     //   3 - show message to User and Client 
-    public void addThrow(String code, String message, int forUser) throws Exception {
-        if (forUser < 0 || forUser > 3) forUser = 0;
-        String fu = String.valueOf(forUser);
-        throw new Exception(code + ":" + message + "$$$" + fu );
+    public static void addThrow(String code, String message, int forUser) throws Exception {
+        getInstance().addThrowInternal(code, message, forUser);
     }
 
-    public void addThrowNoBreak(String code, String message) {
+    private void addThrowInternal(String code, String message, int forUser) throws Exception {
+        if (forUser < 0 || forUser > 3)
+            forUser = 0;
+        String fu = String.valueOf(forUser);
+        throw new Exception(code + ":" + message + "$$$" + fu);
+    }
+
+    public static void addThrowNoBreak(String code, String message) {
+        getInstance().addThrowNoBreakInternal(code, message);
+    }
+
+    private void addThrowNoBreakInternal(String code, String message) {
 
     }
 
     //TODO: SR: ako postoji Exceptions koji nije izazvao prekid sada ce biti izazvan prekid
-    public void checkExceptionsThrow() {
+    public static void checkExceptionsThrow() {
+        getInstance().checkExceptionsThrowInternal();
+    }
+
+    private void checkExceptionsThrowInternal() {
 
     }
 
     //TODO: SR: true - ako postoje greske koje su se desile a nisu prekinule
-    public boolean ifExceptions() {
+    public static boolean ifExceptions() {
+        return getInstance().ifExceptionsInternal();
+    }
+
+    private boolean ifExceptionsInternal() {
         return false;
     }
 
-    public void catchHandlings(Exception e) throws Exception {
+    public static void catchHandlings(Exception e) throws Exception {
+        getInstance().catchHandlingsInternal(e);
+    }
+
+    private void catchHandlingsInternal(Exception e) throws Exception {
         System.out.println("CATCH MYEXCEPTIONS HANDLINGS");
         sTE.add(e.getStackTrace());
         if (!firstHandling) {
@@ -60,7 +81,11 @@ public class ExceptionHandlings {
         throw e;
     }
 
-    public void catchHandlingsEnd(Exception e) throws Error {
+    public static void catchHandlingsEnd(Exception e) throws Error {
+        getInstance().catchHandlingsEndInternal(e);
+    }
+
+    private void catchHandlingsEndInternal(Exception e) throws Error {
         System.out.println("CATCH ERROR HANDLINGS END");
         sTE.add(e.getStackTrace());
         if (!firstHandling) {
@@ -81,7 +106,11 @@ public class ExceptionHandlings {
 
     }
 
-    public String catchHandlingsHTTP(Exception e) throws Error {
+    public static String catchHandlingsHTTP(Exception e) throws Error {
+        return getInstance().catchHandlingsHTTPInternal(e);
+    }
+
+    private String catchHandlingsHTTPInternal(Exception e) throws Error {
         String tempString = new String();
         try {
             System.out.println("CATCH ERROR HANDLINGS END");
@@ -97,8 +126,8 @@ public class ExceptionHandlings {
                     // it's user defined (custom) exception by this system 
                     // TODO: SR: Treba da se definise prikaz greske Client ili User u zavisnosti
                     // da li je to Client ili User (citati konfiguraciju)
-                    if (!temp.substring(temp.length()-1,temp.length()).equals("0")) {
-                        temp = temp.substring(0,temp.length()-4);
+                    if (!temp.substring(temp.length() - 1, temp.length()).equals("0")) {
+                        temp = temp.substring(0, temp.length() - 4);
                     } else {
                         // SR: Ukoliko nije definisano da se prikazuje originalna poruka 
                         // prikazuje se Ilegal error poruka
@@ -130,7 +159,11 @@ public class ExceptionHandlings {
         }
     }
 
-    public void catchHandlings(Error e) throws Error {
+    public static void catchHandlings(Error e) throws Error {
+        getInstance().catchHandlingsInternal(e);
+    }
+
+    private void catchHandlingsInternal(Error e) throws Error {
         System.out.println("CATCH ERROR HANDLINGS");
         sTE.add(e.getStackTrace());
         if (!firstHandling) {
