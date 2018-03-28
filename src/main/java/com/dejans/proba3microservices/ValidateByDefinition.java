@@ -1,6 +1,5 @@
 package com.dejans.proba3microservices;
 
-
 public class ValidateByDefinition {
     private ModelDefinitionTree model = null;
     private static ValidateByDefinition instance = null;
@@ -17,14 +16,9 @@ public class ValidateByDefinition {
     }
 
 
-    public static void setValidate (String object, String item, String type, Object value) throws Exception {
-        getInstance().setValidateInternal (object, item, type, value);
-    }
-
     public static void setModel(ModelDefinitionTree model) {
         getInstance().setModelInternal(model);
     }
-
 
     private void setModelInternal(ModelDefinitionTree model) {
         this.model = model;
@@ -33,10 +27,16 @@ public class ValidateByDefinition {
     private void lengthValidate(String object, String item, int length) throws Error, Exception {
         ModelDefinitionTree.LengthValidate lval = model.lengthValidate(object, item);
         if (lval.validate) {
-            ExceptionHandlings.addThrow("COD-001", "FIRST EXCEPTION", 3);
+            if (length > lval.length) {
+                ExceptionHandlings.throwValidateException("COD-001-505",
+                        ExceptionHandlings.setMessage("Length of item $1 is greather than $2", item, lval.length), 3);
+            }
         }
     }
 
+    public static void setValidate(String object, String item, String type, Object value) throws Exception {
+        getInstance().setValidateInternal(object, item, type, value);
+    }
     private void setValidateInternal(String object, String item, String type, Object value) throws Exception {
         System.out.println("USAO U SET VALIDATE");
         System.out.println("USAO U SET VALIDATE " + object + "." + item);

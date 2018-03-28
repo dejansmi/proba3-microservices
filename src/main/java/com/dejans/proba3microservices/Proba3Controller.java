@@ -147,7 +147,9 @@ public class Proba3Controller {
 				ids = 6;
 				pet.setId(ids);
 				pet.setName("Kapa");
-				pet.setTag("Zimska");
+				String dugi = "123456789 ";
+				dugi += dugi + dugi + dugi + dugi + dugi + dugi + dugi + dugi;
+				pet.setTag(dugi);
 				date = LocalDate.now();
 				pet.setBorn(date);
 				lpet.add(pet);
@@ -157,6 +159,7 @@ public class Proba3Controller {
 				lpet.add(pet);
 
 				pets.setPets(lpet);
+				ExceptionHandlings.checkExceptionsThrow();
 				o.updIns1(pets);
 
 				Pets spet = new Pets();
