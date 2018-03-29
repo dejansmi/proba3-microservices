@@ -15,7 +15,6 @@ public class ValidateByDefinition {
     protected ValidateByDefinition() {
     }
 
-
     public static void setModel(ModelDefinitionTree model) {
         getInstance().setModelInternal(model);
     }
@@ -25,18 +24,27 @@ public class ValidateByDefinition {
     }
 
     private void lengthValidate(String object, String item, int length) throws Error, Exception {
-        ModelDefinitionTree.LengthValidate lval = model.lengthValidate(object, item);
+        ModelDefinitionTree.PropertiesValidate lval = model.propertyValidate("length", object, item);
         if (lval.validate) {
-            if (length > lval.length) {
-                ExceptionHandlings.throwValidateException("COD-001-505",
-                        ExceptionHandlings.setMessage("Length of item $1 is greather than $2", item, lval.length), 3);
+            if (length > Integer.parseInt(lval.valueProperty)) {
+
+                ExceptionHandlings.throwException(lval.errorcode, lval.errormessage, lval.show);
             }
+        }
+    }
+
+    private void requiredValidate(String object, String item, Object value) throws Error, Exception {
+        boolean bool = model.getItemRequired(object, item);
+        if (bool && value == null) {
+            ModelDefinitionTree.PropertiesValidate lval = model.propertyValidate("required", object, item);
+            ExceptionHandlings.throwException(lval.errorcode, lval.errormessage, lval.show);            
         }
     }
 
     public static void setValidate(String object, String item, String type, Object value) throws Exception {
         getInstance().setValidateInternal(object, item, type, value);
     }
+
     private void setValidateInternal(String object, String item, String type, Object value) throws Exception {
         System.out.println("USAO U SET VALIDATE");
         System.out.println("USAO U SET VALIDATE " + object + "." + item);
@@ -49,6 +57,8 @@ public class ValidateByDefinition {
 
                 }
             }
+            requiredValidate(object, item, value);
+
         } catch (Exception e) {
             ExceptionHandlings.catchHandlings(e);
 

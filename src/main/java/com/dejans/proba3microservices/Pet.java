@@ -112,8 +112,9 @@ public class Pet implements DatabaseClass  {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws Exception {
         if (!this.namedefined) {
+            ValidateByDefinition.setValidate("Pet", "name","String", name);
             this.name = name;
             this.namedefined = true;
             return;
@@ -127,6 +128,7 @@ public class Pet implements DatabaseClass  {
         if (status != null && (status.equals("FU") || status.equals("U"))) {
             status = "U";
             if (!this.namedefined) {
+                ValidateByDefinition.setValidate("Pet", "name","String", name);
                 this.name = name;
                 this.namedefined = true;
         } else {
@@ -135,13 +137,16 @@ public class Pet implements DatabaseClass  {
             if (OLD == null) {
                 OLD = new Pet();
             }
+            ValidateByDefinition.setValidate("Pet", "name","String", name);
             OLD.name = this.name;
             OLD.namedefined = true;
             this.name = name;
+            this.tagdefined = true;
 
             }
 
         } else if (status == null || !status.equals("D")) {
+            ValidateByDefinition.setValidate("Pet", "name","String", name);
             this.name = name;
             this.namedefined = true;
         }
@@ -183,6 +188,7 @@ public class Pet implements DatabaseClass  {
             OLD.tag = this.tag;
             OLD.tagdefined = true;
             this.tag = tag;
+            this.tagdefined = true;
 
             }
 

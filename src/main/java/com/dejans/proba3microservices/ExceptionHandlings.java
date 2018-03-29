@@ -5,10 +5,7 @@ import java.util.List;
 
 public class ExceptionHandlings {
 
-    private List<StackTraceElement[]> sTE = new ArrayList<StackTraceElement[]>();
     private List<String> exceptions = new ArrayList<String>();
-    private List<Integer> forUser = new ArrayList<Integer>();
-
     private boolean firstHandling = false;
 
     private static ExceptionHandlings instance = null;
@@ -29,28 +26,28 @@ public class ExceptionHandlings {
 
     }
 
-    private static String convertParam (Object param){
-        if (param instanceof String ) {
+    private static String convertParam(Object param) {
+        if (param instanceof String) {
             return (String) param;
         } else if (param instanceof Integer) {
             return Integer.toString((Integer) param);
         }
         return "XXX";
     }
-    private String convertParam (int param) {
+
+    private String convertParam(int param) {
         return String.valueOf(param);
     }
 
-    public static String setMessage (String message, Object... param) {
+    public static String setMessage(String message, Object... param) {
         int i = 0;
-        for (Object par: param) {
+        for (Object par : param) {
             i++;
-            message = message.replace("$"+String.valueOf(i), convertParam(par));
+            message = message.replace("$" + String.valueOf(i), convertParam(par));
         }
         return message;
 
     }
-
 
     private String setMessageFinal(String temp) {
         if (temp.contains("$$$")) {
@@ -83,7 +80,7 @@ public class ExceptionHandlings {
 
     private void throwExceptionInternal(String code, String message, int forUser) throws Exception {
         String temp = setMessageCode(code, message, forUser);
-        throw new Exception (temp);
+        throw new Exception(temp);
     }
 
     public static void throwValidateException(String code, String message, int forUser) {
@@ -103,7 +100,7 @@ public class ExceptionHandlings {
     }
 
     private void checkExceptionsThrowInternal() throws Exception {
-        if (exceptions.size()>0) {
+        if (exceptions.size() > 0) {
             throw new Exception("Validate exceptions");
         }
 
@@ -115,7 +112,18 @@ public class ExceptionHandlings {
     }
 
     private boolean ifExceptionsInternal() {
-        return (exceptions.size()>0);
+        return (exceptions.size() > 0);
+    }
+
+    //TODO: SR: true - ako postoje greske koje su se desile a nisu prekinule
+    public static void clearExceptions() {
+        getInstance().clearExceptionsInternal();
+    }
+
+    private void clearExceptionsInternal() {
+        exceptions = new ArrayList<String>();
+        firstHandling = false;
+        return;
     }
 
     public static void catchHandlings(Exception e) throws Exception {
@@ -124,7 +132,6 @@ public class ExceptionHandlings {
 
     private void catchHandlingsInternal(Exception e) throws Exception {
         System.out.println("CATCH MYEXCEPTIONS HANDLINGS");
-        sTE.add(e.getStackTrace());
         if (!firstHandling) {
             exceptions.add(e.toString().replace("java.lang.", ""));
             firstHandling = true;
@@ -138,20 +145,21 @@ public class ExceptionHandlings {
 
     private void catchHandlingsEndInternal(Exception e) throws Error {
         System.out.println("CATCH ERROR HANDLINGS END");
-        sTE.add(e.getStackTrace());
-        if (!firstHandling) {
-            exceptions.add(e.toString().replace("java.lang.", ""));
-            firstHandling = true;
-        }
-        System.out.println("EXCEPTION STACK:");
-        for (String ex : exceptions) {
-            System.out.println(ex);
-        }
-        System.out.println();
-        for (StackTraceElement[] ste : sTE) {
-            for (StackTraceElement steOne : ste) {
-                System.out.println(steOne.toString());
+        try {
+            if (!firstHandling) {
+                exceptions.add(e.toString().replace("java.lang.", ""));
+                firstHandling = true;
             }
+            System.out.println("EXCEPTION STACK:");
+            for (String ex : exceptions) {
+                String temp = setMessageFinal(ex);
+                System.out.println(temp);
+            }
+            System.out.println();
+            e.printStackTrace();
+        } finally {
+            exceptions = new ArrayList<String>();
+            firstHandling = false;
         }
         System.out.println();
 
@@ -165,7 +173,6 @@ public class ExceptionHandlings {
         String tempString = new String();
         try {
             System.out.println("CATCH ERROR HANDLINGS END");
-            sTE.add(e.getStackTrace());
             if (!firstHandling) {
                 exceptions.add(e.toString().replace("java.lang.", ""));
                 firstHandling = true;
@@ -176,11 +183,7 @@ public class ExceptionHandlings {
                 tempString += temp + "<br/>";
             }
             System.out.println();
-            for (StackTraceElement[] ste : sTE) {
-                for (StackTraceElement steOne : ste) {
-                    System.out.println(steOne.toString());
-                }
-            }
+            e.printStackTrace();
             System.out.println();
             System.out.println();
             System.out.println();
@@ -192,6 +195,8 @@ public class ExceptionHandlings {
             if (tempString == null || tempString == "") {
                 tempString = "Ilegal error, try again<br/>";
             }
+            exceptions = new ArrayList<String>();
+            firstHandling = false;
             return tempString;
         }
     }
@@ -202,7 +207,6 @@ public class ExceptionHandlings {
 
     private void catchHandlingsInternal(Error e) throws Error {
         System.out.println("CATCH ERROR HANDLINGS");
-        sTE.add(e.getStackTrace());
         if (!firstHandling) {
             exceptions.add(e.toString().replace("java.lang.", ""));
             firstHandling = true;

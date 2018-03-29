@@ -110,7 +110,7 @@ public class Proba3Controller {
 			try {
 				Pet pet = new Pet();
 				pet.setId(172);
-				pet.setName("Macka");
+				pet.setName(null);
 				pet.setTag("Maca");
 				pet.setTag("Kuca");
 				LocalDate date = LocalDate.of(2015, Calendar.FEBRUARY, 4);

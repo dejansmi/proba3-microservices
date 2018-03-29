@@ -71,6 +71,14 @@ public class ModelDefinitionTree {
         return column;
     }
 
+    public boolean getItemRequired(String object, String item) {
+        String key = new String();
+        key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.required";
+        String itemBool = modelTree.get(key);
+        if (itemBool == null) return false;
+        return itemBool.equals("true");
+    }
+
     public String getItemJavaType(String object, String element) {
         String key = new String();
         key = ".{.Models.{." + object + ".{.items.{.properties.{." + element + ".{.java";
@@ -85,11 +93,11 @@ public class ModelDefinitionTree {
         if (item == null || item.equals("")) {
             key = ".{.Models.{." + object + ".{.items.{.properties.{.";
         } else {
-            key = ".{.Models.{." + object + ".{.items.{.properties.{."+ item + "@";
+            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + "@";
         }
         String mask = ".{.Models.{." + object + ".{.items.{.properties.{.";
         key = modelTree.higherKey(key);
-        if (key.indexOf(mask)== 0) {
+        if (key.indexOf(mask) == 0) {
             // SR: i dalje je item na redu
             key = key.substring(mask.length());
             int point = key.indexOf('.');
@@ -102,57 +110,68 @@ public class ModelDefinitionTree {
 
     }
 
-    public class LengthValidate {
-        int length;
+    public class PropertiesValidate {
+        String valueProperty;
         boolean validate;
         String action;
-        String errormessage; 
+        String errormessage;
         String errorcode;
+        Integer show;
+        String property;
 
-        public LengthValidate(){
+        public PropertiesValidate(String property) {
             // Default values
             validate = true;
             action = "error";
-            errormessage = "${object}.${item} is greater than ${length} characters";
-            errorcode = "VAL-001";
+            errormessage = "Unknown validate error";
+            errorcode = "VAL-000-500";
+            show = 3;
+            this.property = property;
         }
     }
 
-    public LengthValidate lengthValidate (String object, String item) {
-        String keyLength = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length";
-        String length = modelTree.get(keyLength);
-        if (length==null) {
+    public PropertiesValidate propertyValidate(String property, String object, String item) {
+        String keyProperty = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{." + property;
+        String propertyValue = modelTree.get(keyProperty);
+        if (propertyValue == null) {
             // length not defined
-            LengthValidate lval = new LengthValidate();
+            PropertiesValidate lval = new PropertiesValidate(property);
             lval.validate = false;
             lval.action = "";
             lval.errormessage = "";
             lval.errorcode = "";
+            lval.show = 0;
             return lval;
         } else {
-            LengthValidate lval = new LengthValidate();
-            lval.length = Integer.parseInt(length);
-            
-            String key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length.{.lengthValidate.{.set.{.validate";
+            PropertiesValidate lval = new PropertiesValidate(property);
+            lval.valueProperty = propertyValue;
+
+            String key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{." + property + "Validate.{.set.{.validate";
             String value = modelTree.get(key);
             if (value != null) {
                 lval.validate = Boolean.parseBoolean(value);
             }
-            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length.{.lengthValidate.{.set.{.action";
+            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{." + property + "Validate.{.set.{.action";
             value = modelTree.get(key);
             if (value != null) {
                 lval.action = value;
             }
-            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length.{.lengthValidate.{.set.{.errornessage";
+            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{." + property + "Validate.{.set.{.errormessage";
             value = modelTree.get(key);
             if (value != null) {
                 lval.errormessage = value;
-                lval.errormessage = lval.errormessage.replace("${object}", object).replace(("${item}"), item).replace("${length}", length);
+                lval.errormessage = lval.errormessage.replace("${object}", object).replace(("${item}"), item)
+                        .replace("${property}", property);
             }
-            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{.length.{.lengthValidate.{.set.{.errorcode";
+            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{." + property + "Validate.{.set.{.errorcode";
             value = modelTree.get(key);
             if (value != null) {
                 lval.errorcode = value;
+            }
+            key = ".{.Models.{." + object + ".{.items.{.properties.{." + item + ".{." + property + "Validate.{.set.{.show";
+            value = modelTree.get(key);
+            if (value != null) {
+                lval.show = Integer.parseInt(value);
             }
             return lval;
         }

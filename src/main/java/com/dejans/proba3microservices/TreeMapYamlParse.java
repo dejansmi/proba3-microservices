@@ -85,6 +85,11 @@ public class TreeMapYamlParse {
         }
     }
 
+    private void putItemsRequired(String key, String value, int ind) {
+        String keyL = key.substring(0,ind)+ ".{.items.{.properties.{." + value +".{.required";
+        treeMap.put(keyL, "true");
+    }
+
     private void findRefAndExtractOne(String key, String value) {
         String keyAddTo = "";
         if (value.length() > 0 && value.substring(0, 1).equals("#")) {
@@ -116,7 +121,7 @@ public class TreeMapYamlParse {
         }
     }
 
-    private void findRefAndExtracts() {
+    private void findRefAndRequiredAndExtracts() {
         String key = "";
         String value = "";
         for (key = ""; key != null; key = treeMap.higherKey(key)) {
@@ -125,6 +130,12 @@ public class TreeMapYamlParse {
                 // found $ref so now we should extract it
                 value = treeMap.get(key);
                 findRefAndExtractOne(key, value);
+            } else {
+                ind = key.indexOf(".{.items.{.required.[..");
+                if (ind > 0) {
+                    value = treeMap.get(key);
+                    putItemsRequired(key, value, ind);
+                }
             }
 
         }
@@ -223,7 +234,7 @@ public class TreeMapYamlParse {
             }
 
         }
-        findRefAndExtracts();
+        findRefAndRequiredAndExtracts();
     }
 
 }
