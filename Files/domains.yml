@@ -2,6 +2,13 @@ Domains:
   string:
     java: String
     javascript: String
+    requiredValidate:
+      set:
+        validate: true
+        action: error
+        errormessage: "${item} is requierd so can't be null or undefined" 
+        errorcode: VAL-001-505
+        show: 3
     databases:
       postgres: varchar2
       oracle: varchar2
@@ -28,13 +35,6 @@ Domains:
         validate: true
         action: error
         errormessage: "Length of ${item} is greater than 64 charachters" 
-        errorcode: VAL-001-505
-        show: 3
-    requiredValidate:
-      set:
-        validate: true
-        action: error
-        errormessage: "${item} is requierd so can't be null or undefined" 
         errorcode: VAL-001-505
         show: 3
     databases:
